@@ -3,7 +3,6 @@ let fetch = require('node-fetch');
 let handler = async (m, { text, command, usedPrefix }) => {
 	if (!text) throw `Example: ${usedPrefix + command} Janji Suci Yovie Nuno`
 	m.reply(wait)
-	const fetch = require('node-fetch');
   try {
     let response = await fetch(`https://api.betabotz.eu.org/api/search/chord?song=${text}&apikey=${lann}`);
     let data = await response.json();

@@ -17,14 +17,14 @@ let fetch = require('node-fetch')
 let moment = require('moment-timezone')
 let levelling = require('../lib/levelling')
 
-let tags
+
 let arrayMenu = [
     'main',
     'ai',
     'downloader',
     'rpg',
-    'rpgG', 
     'sticker',
+    'rpgG', 
     'advanced',
     'xp',
     'fun',
@@ -157,12 +157,12 @@ let handler = async (m, { conn, usedPrefix: _p, args = [], command }) => {
                 time
             }
 
-            menuList = menuList.replace(new RegExp(`%(${Object.keys(replace).sort((a, b) => b.length - a.length).join`|`})`, 'g'), 
+            let text = menuList.replace(new RegExp(`%(${Object.keys(replace).sort((a, b) => b.length - a.length).join`|`})`, 'g'), 
                 (_, name) => '' + replace[name])
 
             await conn.relayMessage(m.chat, {
                 extendedTextMessage:{
-                    text: menuList,
+                    text: text,
                     contextInfo: {
                         mentionedJid: [m.sender],
                         externalAdReply: {
@@ -184,36 +184,22 @@ let handler = async (m, { conn, usedPrefix: _p, args = [], command }) => {
             return m.reply(`Menu "${teks}" tidak tersedia.\nSilakan ketik ${_p}menu untuk melihat daftar menu.`)
         }
 
-        tags = { [teks]: allTags[teks] }
+        let menuCategory = defaultMenu.before + '\n\n'
+        menuCategory += defaultMenu.header.replace(/%category/g, allTags[teks]) + '\n'
         
-        let groups = {}
-        for (let tag in tags) {
-            groups[tag] = []
-            for (let plugin of help)
-                if (plugin.tags && plugin.tags.includes(tag))
-                    if (plugin.help) groups[tag].push(plugin)
+        let categoryCommands = help.filter(menu => menu.tags && menu.tags.includes(teks) && menu.help)
+        
+        for (let menu of categoryCommands) {
+            for (let help of menu.help) {
+                menuCategory += defaultMenu.body
+                    .replace(/%cmd/g, menu.prefix ? help : _p + help)
+                    .replace(/%islimit/g, menu.limit ? '(Ⓛ)' : '')
+                    .replace(/%isPremium/g, menu.premium ? '(Ⓟ)' : '') + '\n'
+            }
         }
-
-        let _text = [
-            defaultMenu.before,
-            ...Object.keys(tags).map(tag => {
-                return defaultMenu.header.replace(/%category/g, tags[tag]) + '\n' + [
-                    ...help.filter(menu => menu.tags && menu.tags.includes(tag) && menu.help).map(menu => {
-                        return menu.help.map(help => {
-                            return defaultMenu.body.replace(/%cmd/g, menu.prefix ? help : '%p' + help)
-                                .replace(/%islimit/g, menu.limit ? '(Ⓛ)' : '')
-                                .replace(/%isPremium/g, menu.premium ? '(Ⓟ)' : '')
-                                .trim()
-                        }).join('\n')
-                    }),
-                    defaultMenu.footer
-                ].join('\n')
-            }),
-            defaultMenu.after
-        ].join('\n')
-
-        let text = typeof conn.menu == 'string' ? conn.menu : typeof conn.menu == 'object' ? _text : ''
         
+        menuCategory += defaultMenu.footer + '\n\n' + defaultMenu.after
+
         let replace = {
             '%': '%',
             p: _p, 
@@ -223,9 +209,9 @@ let handler = async (m, { conn, usedPrefix: _p, args = [], command }) => {
             time
         }
 
-        text = text.replace(new RegExp(`%(${Object.keys(replace).sort((a, b) => b.length - a.length).join`|`})`, 'g'), 
+        let text = menuCategory.replace(new RegExp(`%(${Object.keys(replace).sort((a, b) => b.length - a.length).join`|`})`, 'g'), 
             (_, name) => '' + replace[name])
-        
+
         await conn.relayMessage(m.chat, {
             extendedTextMessage:{
                 text: text, 
@@ -237,7 +223,7 @@ let handler = async (m, { conn, usedPrefix: _p, args = [], command }) => {
                         previewType: 0,
                         renderLargerThumbnail: true,
                         thumbnailUrl: 'https://telegra.ph/file/3a34bfa58714bdef500d9.jpg',
-                        sourceUrl: 'https://whatsapp.com/channel/0029VaApYsQ5Ui2c2rKbpP0S'
+                        sourceUrl: 'https://whatsapp.com/channel/0029Va8ZH8fFXUuc69TGVw1q'
                     }
                 }, 
                 mentions: [m.sender]

@@ -13,6 +13,7 @@ global.stiker_wait = '*⫹⫺ Stiker sedang dibuat...*'
 global.packname = 'Made With'
 global.author = 'Bot WhatsApp'
 global.maxwarn = '2' // Peringatan maksimum
+global.antiporn = true // Auto delete pesan porno (bot harus admin)
 
 //INI WAJIB DI ISI!//
 global.lann = 'YOUR_APIKEY_HERE' 

@@ -3,7 +3,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     if (!text) throw `*🚩 Example:* ${usedPrefix}${command} https://terabox.com/s/1aD9T7_Xe0oroBwlfzyWXUA`
     await m.reply(wait)
     try {
-        let data = await (await fetch(`https://api.botcahx.eu.org/api/download/terabox?url=${text}&apikey=${btc}`)).json()
+        let data = await (await fetch(`https://api.betabotz.eu.org/api/download/terabox?url=${text}&apikey=${lann}`)).json()
         
         if (!data.result || data.result.length === 0) {
             throw 'No files found in the response'

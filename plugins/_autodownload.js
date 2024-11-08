@@ -13,12 +13,13 @@ async function downloadTikTok(link, m) {
 	try {
         if (global.db.data.users[m.sender].limit > 0) {
 		const response = await fetch(`https://api.betabotz.eu.org/api/download/tiktok?url=${link}&apikey=${lann}`);
+                global.db.data.users[m.sender].limit -= 1
 		const data = await response.json();
 		if (!data.result.video) {
 			return;
 		}
 		if (data.result.video.length > 1) {
-            global.db.data.users[m.sender].limit -= 1;
+               
 			for (let v of data.result.video) {
 				await conn.sendFile(m.chat, v, null, `*Tiktok Downloader*`, m);
 				await sleep(3000)
@@ -46,7 +47,7 @@ async function downloadDouyin(link, m) {
 			return;
 		}
 		if (data.result.video.length > 1) {
-            global.db.data.users[m.sender].limit -= 1;
+            global.db.data.users[m.sender].limit -= 1
 			for (let v of data.result.video) {
 				await conn.sendFile(m.chat, v, null, `*Douyin Downloader*`, m);
 				await sleep(3000)
@@ -70,7 +71,7 @@ async function downloadInstagram(link, m) {
         if (global.db.data.users[m.sender].limit > 0) {
 		const response = await fetch(`https://api.betabotz.eu.org/api/download/igdowloader?url=${link}&apikey=${lann}`);
         let message = await response.json()   
-        global.db.data.users[m.sender].limit -= 1;          
+        global.db.data.users[m.sender].limit -= 1        
         for (let i of message.message ) {
             conn.sendFile(m.chat, i._url, null, `*Instagram Downloader*`, m)
         }
@@ -89,7 +90,7 @@ async function downloadFacebook(link, m) {
         if (global.db.data.users[m.sender].limit > 0) {
 		const response = await fetch(`https://api.betabotz.eu.org/api/download/fbdown?url=${link}&apikey=${lann}`);
 		var js = await response.json()   
-        global.db.data.users[m.sender].limit -= 1; 
+        global.db.data.users[m.sender].limit -= 1
         conn.sendFile(m.chat, js.result[1]._url, 'fb.mp4', '', m);
         }
         else {
@@ -103,7 +104,6 @@ async function downloadFacebook(link, m) {
 
 handler.before = async function (m, {conn, isPrems}) {
 	let chat = global.db.data.chats[m.chat];
-	// let user = global.db.data.user[m.sender].isPrems;
 
 	if (!m.text) {
 		return;
@@ -116,10 +116,6 @@ handler.before = async function (m, {conn, isPrems}) {
 	if (chat.isBanned) {
 		return;
 	}
-
-	// if (isPrems) {
-	// 	return
-	// }
 
 	if (!m.text.includes('http')) {
 		return;

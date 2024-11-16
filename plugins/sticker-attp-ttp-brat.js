@@ -11,10 +11,19 @@ let handler = async (m, {
  }) => {
     text = text ? text : m.quoted && m.quoted.text ? m.quoted.text : m.quoted && m.quoted.caption ? m.quoted.caption : m.quoted && m.quoted.description ? m.quoted.description : ''
     if (!text) throw `Example : ${usedPrefix + command} Lagi Ruwet`
-    const res = `https://api.betabotz.eu.org/api/maker/attp?text=${encodeURIComponent(text.substring(0, 151))}&apikey=${lann}`
+    let res;
     var error = fs.readFileSync(`./media/sticker/emror.webp`)
     try {
         if (command == 'attp' || command == 'attp') {
+            res = `https://api.betabotz.eu.org/api/maker/attp?text=${encodeURIComponent(text.substring(0, 151))}&apikey=${lann}`;
+            var stiker = await sticker5(res, { packname })
+            await conn.sendFile(m.chat, stiker, 'emror.webp', '', m)
+        } if (command == 'ttp' || command == 'ttp') {
+            res = `https://api.betabotz.eu.org/api/maker/ttp?text=${encodeURIComponent(text.substring(0, 151))}&apikey=${lann}`;
+            var stiker = await sticker5(res, { packname })
+            await conn.sendFile(m.chat, stiker, 'emror.webp', '', m)
+        } if (command == 'brat' || command == 'brat') {
+            res = `https://api.betabotz.eu.org/api/maker/brat?text=${encodeURIComponent(text.substring(0, 151))}&apikey=${lann}`;
             var stiker = await sticker5(res, { packname })
             await conn.sendFile(m.chat, stiker, 'emror.webp', '', m)
         }
@@ -24,7 +33,7 @@ let handler = async (m, {
     }
 }
 
-handler.command = handler.help = ['attp']
+handler.command = handler.help = ['attp', 'ttp', 'brat']
 handler.tags = ['sticker']
 handler.limit = true
 

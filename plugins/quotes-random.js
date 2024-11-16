@@ -30,14 +30,19 @@ let handler = async (m, { conn, command }) => {
     } else if (command === 'quotes') {
         const res = await (await fetch(`https://api.betabotz.eu.org/api/random/quotes?apikey=${lann}`)).json();
         anu += res.quotes;
+    } else if (command === 'sunda') {
+        const res = await (await fetch(`https://api.betabotz.eu.org/api/random/sunda?apikey=${lann}`)).json();
+        anu += res.hasl;
+    } else if (command === 'batak') {
+        const res = await (await fetch(`https://api.betabotz.eu.org/api/random/batak?apikey=${lann}`)).json();
+        anu += res.hasl;
     }
-
     m.reply(anu);
 };
 
-handler.help = ['bucin', 'katailham', 'katadilan', 'fiersa', 'fakta', 'nyindir', 'ngawur', 'jawa', 'quotes'];
+handler.help = ['bucin', 'katailham', 'katadilan', 'fiersa', 'fakta', 'nyindir', 'ngawur', 'jawa', 'quotes','sunda','batak'];
 handler.tags = ['quotes'];
-handler.command = /^(bucin|katailham|katadilan|fiersa|fakta|nyindir|ngawur|jawa|quotes)$/i;
+handler.command = /^(bucin|katailham|katadilan|fiersa|fakta|nyindir|ngawur|jawa|quotes|sunda|batak)$/i;
 handler.owner = false;
 handler.mods = false;
 handler.premium = false;

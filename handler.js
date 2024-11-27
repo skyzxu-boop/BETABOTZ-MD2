@@ -844,7 +844,10 @@ module.exports = {
                 if (!('autodl' in chat)) chat.autodl = false
                 if (!('autohd' in chat)) chat.autohd = false
                 if (!('autobio' in chat)) chat.autobio = false
+                if (!('rpg' in chat)) chat.rpg = false
+                if (!('autobackup' in chat)) chat.autobackup = false
             } else global.db.data.chats[m.chat] = {
+                autobackup: false,
                 autobio: false,
                 autohd: false,
                 antiporn: false,
@@ -1024,7 +1027,10 @@ module.exports = {
                         user.commandTotal++
                         user.lastCmd = Date.now()
                     }
-                    
+                    if (plugin.rpg && !global.db.data.chats[m.chat].rpg) { // rpg
+                        fail('rpg', m, this) 
+                        continue
+                    }
                     if (plugin.rowner && plugin.owner && !(isROwner || isOwner)) { // Both Owner
                         fail('owner', m, this)
                         continue

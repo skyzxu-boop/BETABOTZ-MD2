@@ -21,6 +21,6 @@ handler.help = ["listonline"].map((a) => a + " *[get list online member]*");
 handler.tags = ["group"];
 handler.command = ["listonline"];
 handler.group = true;
-handler.admib = true;
+handler.admin = true;
 
 module.exports = handler;
